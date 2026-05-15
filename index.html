@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create ID Account</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#0f172a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    width:400px;
+    background:#1e293b;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+
+h2{
+    text-align:center;
+    color:white;
+    margin-bottom:20px;
+}
+
+input, textarea{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:none;
+    border-radius:6px;
+    outline:none;
+    font-size:14px;
+}
+
+textarea{
+    height:80px;
+    resize:none;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    background:#38bdf8;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:hover{
+    background:#0ea5e9;
+}
+
+#message{
+    margin-top:15px;
+    text-align:center;
+    padding:10px;
+    border-radius:6px;
+    display:none;
+    color:white;
+}
+
+.success{
+    background:#14532d;
+}
+
+.error{
+    background:#7f1d1d;
+}
+
+</style>
+</head>
+
+<body>
+ <form id="sheetdb-form"
+      action="https://sheetdb.io/api/v1/x3mqc5d3c7d88"
+      method="post">
+
+<div class="container">
+
+    <h2>Create ID Account</h2>
+
+    <input 
+        type="text"
+        name="data[NAME]"
+        id="fullname"
+        placeholder="Full Name"
+        required
+    >
+
+    <input 
+        type="email"
+        name="data[EMAIL]"
+        id="email"
+        placeholder="Email"
+        required
+    >
+
+    <input 
+        type="date"
+        name="data[DATEOFBRITHDAY]"
+        id="birthday"
+        required
+    >
+
+    <input 
+        type="text"
+        name="data[COUNTRY]"
+        id="country"
+        placeholder="Country"
+        required
+    >
+
+    <textarea 
+        id="address"
+        name="data[ADDRESS]"
+        placeholder="Address"
+        required
+    ></textarea>
+
+    <input 
+        type="password"
+        name="data[PASSWORD]"
+        id="password"
+        placeholder="Password"
+        required
+    >
+
+    <button type="submit">
+        Create Account
+    </button>
+
+    <div id="message"></div>
+
+</div>
+
+</form>
+<script>
+
+const form = document.getElementById("sheetdb-form");
+
+form.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const fullname =
+        document.getElementById("fullname").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const birthday =
+        document.getElementById("birthday").value;
+
+    const country =
+        document.getElementById("country").value.trim();
+
+    const address =
+        document.getElementById("address").value.trim();
+
+    const password =
+        document.getElementById("password").value.trim();
+
+
+    // VALIDATION
+    if(
+        !fullname ||
+        !email ||
+        !birthday ||
+        !country ||
+        !address ||
+        !password
+    ){
+
+        showMessage(
+            "Please fill all fields",
+            "error"
+        );
+
+        return;
+    }
+
+    try{
+
+        // SEND DATA TO SHEETDB
+        const response = await fetch(form.action, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                data: [{
+
+                    NAME: fullname,
+
+                    EMAIL: email,
+
+                    BIRTHDAY: birthday,
+
+                    COUNTRY: country,
+
+                    ADDRESS: address,
+
+                    PASSWORD: password
+
+                }]
+
+            })
+
+        });
+
+        const result = await response.json();
+
+        console.log(result);
+
+        showMessage(
+            "Account Created Successfully",
+            "success"
+        );
+
+        form.reset();
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            "Data not saved",
+            "error"
+        );
+
+    }
+
+});
+
+
+// MESSAGE FUNCTION
+function showMessage(text, type){
+
+    const message =
+        document.getElementById("message");
+
+    message.style.display = "block";
+
+    message.className = type;
+
+    message.innerText = text;
+
+}
+
+
+// ROBOT EFFECT
+const robot =
+    document.querySelector(".robot");
+
+if(robot){
+
+    document.addEventListener("mousemove", (e) => {
+
+        const x =
+            (window.innerWidth / 2 - e.pageX) / 25;
+
+        const y =
+            (window.innerHeight / 2 - e.pageY) / 25;
+
+        robot.style.transform =
+            `translate(${x}px, ${y}px) scale(1.1)`;
+
+    });
+
+
+    robot.addEventListener("click", () => {
+
+        robot.style.transform =
+            "scale(1.5) rotate(360deg)";
+
+        robot.style.transition = "0.5s";
+
+        setTimeout(() => {
+
+            robot.style.transition = "0.2s";
+
+        }, 500);
+
+    });
+
+}
+
+</script>
+
+
+</body>
+</html>
