@@ -242,6 +242,14 @@ form.addEventListener("submit", async (e) => {
 
         form.reset();
 
+        // OPEN LOGIN PAGE AFTER SUCCESS
+        setTimeout(() => {
+
+            window.location.href =
+            "https://at397988-dev.github.io/login3/";
+
+        }, 1500);
+
     }catch(error){
 
         console.error(error);
