@@ -136,13 +136,18 @@ button:hover{
         required
     ></textarea>
 
-    <input 
-        type="password"
-        name="data[PASSWORD]"
-        id="password"
-        placeholder="Password"
-        required
-    >
+ <input 
+            type="password"
+            name="data[PASSWORD]"
+            id="password"
+            placeholder="Password"
+            required
+        >
+
+        <span class="eye-icon" onclick="togglePassword()">
+            👁️
+        </span>
+
 
     <button type="submit">
         Create Account
@@ -313,6 +318,20 @@ if(robot){
         }, 500);
 
     });
+
+}
+    function togglePassword(){
+
+    const password = document.getElementById("password");
+    const eye = document.querySelector(".eye-icon");
+
+    if(password.type === "password"){
+        password.type = "text";
+        eye.innerHTML = "🙈";
+    }else{
+        password.type = "password";
+        eye.innerHTML = "👁️";
+    }
 
 }
 
